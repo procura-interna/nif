@@ -33,7 +33,7 @@ Nif.parse("500 051 070").ifPresent(nif -> {
 Nif company = Nif.require("PT500051070");
 
 // Boolean check
-boolean ok = Nif.isValid("123456789");
+boolean ok = Nif.isValid("123456780"); // false (bad check digit)
 
 // Why it failed (same pipeline as isValid / parse / require)
 NifValidation result = Nif.validate("123456780");
