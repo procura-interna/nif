@@ -22,7 +22,7 @@ public enum NifEntityType {
   PUBLIC_ADMINISTRATION,
 
   /**
-   * Herança indivisa — autor da sucessão não era empresário individual, ou
+   * Herança indivisa �" autor da sucessão não era empresário individual, ou
    * cônjuge sobrevivente com rendimentos comerciais (leading 70, 74, 75).
    */
   UNDIVIDED_INHERITANCE,
@@ -39,7 +39,7 @@ public enum NifEntityType {
   /** Atribuição oficiosa a não residentes (VAT REFUND) (leading 78). */
   OFFICIAL_ASSIGNMENT_VAT_REFUND,
 
-  /** Regime excepcional — Expo 98 (leading 79). */
+  /** Regime excepcional �" Expo 98 (leading 79). */
   EXCEPTIONAL_REGIME,
 
   /**
@@ -65,7 +65,14 @@ public enum NifEntityType {
     return this == INDIVIDUAL || this == INDIVIDUAL_NON_RESIDENT;
   }
 
-  /** Everything issuable that is not a natural person. */
+  /**
+   * Broad complement of {@link #isNaturalPerson()}: any currently issuable type that is
+   * not an individual (resident or non-resident). This is NOT synonymous with
+   * {@link NifEntityType#COMPANY} / "empresa" - it also includes public administration,
+   * undivided inheritances, investment funds, condominiums, official assignments, civil
+   * societies, and other collective ranges. Prefer {@code COMPANY} / {@link Nif#isCompany()}
+   * when you mean pessoa colectiva (leading 5).
+   */
   public boolean isLegalPerson() {
     return this != INDIVIDUAL
         && this != INDIVIDUAL_NON_RESIDENT
