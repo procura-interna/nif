@@ -14,6 +14,17 @@ normalize, validate, classify, and format tax IDs with **zero runtime dependenci
 mvn test
 ```
 
+
+## Maven dependency
+
+```xml
+<dependency>
+  <groupId>pt.procurainterna</groupId>
+  <artifactId>nif</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
 ## Quick start
 
 ```java
