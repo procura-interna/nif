@@ -59,7 +59,7 @@ if (!result.isValid()) {
 |--------|------|
 | `Nif.validate(String)` | Shared pipeline: success (`Nif`) or `NifFailureReason` |
 | `Nif.parse(String)` | `Optional<Nif>` |
-| `Nif.require(String)` | `Nif` or throws `NifException` |
+| `Nif.require(String)` | Strict half of `parse`: returns `Nif`, or throws `NifException` |
 | `Nif.isValid(String)` | boolean |
 | `Nif.normalize(String)` | Digits only (optional `PT`, spaces, dots, dashes) or `null` |
 | `Nif.checkDigit(String)` | Modulo-11 check digit for 8 body digits |
@@ -80,7 +80,7 @@ Once you hold a `Nif`:
 - Grouped: `500 051 070`, `500.051.070`, `500-051-070`
 - EU VAT style: `PT500051070` (case-insensitive `PT`)
 
-Only **issued** prefix ranges are accepted (the gamas actually used by AT / RNPC), not every first digit contemplated in abstract by Decreto-Lei n.o 14/2013. In particular, bare leading `4` outside `45`, and other unissued two-digit gaps (`40`/`46`/`73`/`76`/`92`, ...), are rejected as `UNKNOWN_PREFIX`.
+Only **issued** prefix ranges are accepted (the gamas (prefix ranges) actually used by AT / RNPC), not every first digit contemplated in abstract by Decreto-Lei n.o 14/2013. In particular, bare leading `4` outside `45`, and other unissued two-digit gaps (`40`/`46`/`73`/`76`/`92`, ...), are rejected as `UNKNOWN_PREFIX`.
 
 Obsolete leading `8` (empresario em nome individual) is classified via `entityTypeOf` but **never** returned by `parse` / `require`.
 
