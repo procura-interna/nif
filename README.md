@@ -1,6 +1,6 @@
 # nif
 
-Java 8 library for Portuguese NIF (`Numero de Identificacao Fiscal`) handling:
+Java 8 library for Portuguese NIF (`Número de Identificação Fiscal`) handling:
 normalize, validate, classify, and format tax IDs with **zero runtime dependencies**.
 
 ## Coordinates
@@ -80,13 +80,13 @@ Once you hold a `Nif`:
 - Grouped: `500 051 070`, `500.051.070`, `500-051-070`
 - EU VAT style: `PT500051070` (case-insensitive `PT`)
 
-Only **issued** prefix ranges are accepted (the gamas (prefix ranges) actually used by AT / RNPC), not every first digit contemplated in abstract by Decreto-Lei n.o 14/2013. In particular, bare leading `4` outside `45`, and other unissued two-digit gaps (`40`/`46`/`73`/`76`/`92`, ...), are rejected as `UNKNOWN_PREFIX`.
+Only **issued** prefix ranges are accepted (the gamas (prefix ranges) actually used by AT / RNPC), not every first digit contemplated in abstract by Decreto-Lei n.º 14/2013. In particular, bare leading `4` outside `45`, and other unissued two-digit gaps (`40`/`46`/`73`/`76`/`92`, ...), are rejected as `UNKNOWN_PREFIX`.
 
 Obsolete leading `8` (empresario em nome individual) is classified via `entityTypeOf` but **never** returned by `parse` / `require`.
 
 `999999990` is the SAF-T **consumidor final** placeholder (Portaria 302/2016). It parses as `FINAL_CONSUMER` / `isFinalConsumer()`, not as a sociedade civil.
 
-Company NIFs (leading `5`) are the same digits as the NIPC from RNPC - use `isCompany()`.
+Company NIFs (leading `5`) are the same digits as the NIPC from RNPC — use `isCompany()`.
 
 Leading `45` marks non-resident individuals for definitive withholding; AT advises those NIFs are not for general contracts/banking. That policy is out of scope for validation; we only classify the prefix.
 
@@ -97,10 +97,10 @@ As of **2026-09-12**, this library is aligned with the following instruments for
 **structure, issued prefixes, and check digit only**. It does **not** perform live
 AT validation and does not claim legal compliance or that a NIF is assigned/active.
 
-- **Decreto-Lei n.o 14/2013, de 28 de janeiro** ? NIF structure and modulo-11 check digit (art. 4.o); first-digit headroom 1-4 and special `45` (art. 4.o/2-3); NIPC equivalent to NIF for RNPC entities and AT `7...` assignments (art. 11.o). [DRE](https://diariodarepublica.pt/dr/detalhe/decreto-lei/14-2013-257001) ? [PDF](https://files.dre.pt/1s/2013/01/01900/0054200548.pdf). Wording fix: Declaracao de Retificacao n.o 7/2013, de 13 de fevereiro.
-- **Portaria n.o 302/2016, de 2 de dezembro** ? SAF-T placeholder `999999990` ("Consumidor final"). [DRE](https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290) ? [AT PDF](https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Portaria_302_2016.pdf).
-- **AT Nota Informativa**, Direcao de Servicos de Registo de Contribuintes, **8 Apr 2019** ? new singular gama `3` announced ([AT page](https://info.portaldasfinancas.gov.pt/pt/destaques/Paginas/Atribuicao_Nova_Gama_de_NIF_a_Pessoas_Singulares.aspx)); issuance from **4 Jul 2019**.
-- **Issued prefix table** - implements issued gamas as commonly published / AT practice. Intentionally stricter than art. 4.o/2 theoretical headroom: unissued gaps such as `40-44` / `46-49` are rejected.
+- **Decreto-Lei n.º 14/2013, de 28 de janeiro** — NIF structure and modulo-11 check digit (art. 4.º); first-digit headroom 1–4 and special `45` (art. 4.º/2–3); NIPC equivalent to NIF for RNPC entities and AT `7...` assignments (art. 11.º). [DRE](https://diariodarepublica.pt/dr/detalhe/decreto-lei/14-2013-257001) · [PDF](https://files.dre.pt/1s/2013/01/01900/0054200548.pdf). Wording fix: Declaração de Retificação n.º 7/2013, de 13 de fevereiro.
+- **Portaria n.º 302/2016, de 2 de dezembro** — SAF-T placeholder `999999990` ("Consumidor final"). [DRE](https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290) · [AT PDF](https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Portaria_302_2016.pdf).
+- **AT Nota Informativa**, Direção de Serviços de Registo de Contribuintes, **8 Apr 2019** — new singular gama `3` announced ([AT page](https://info.portaldasfinancas.gov.pt/pt/destaques/Paginas/Atribuicao_Nova_Gama_de_NIF_a_Pessoas_Singulares.aspx)); issuance from **4 Jul 2019**.
+- **Issued prefix table** — implements issued gamas as commonly published / AT practice. Intentionally stricter than art. 4.º/2 theoretical headroom: unissued gaps such as `40–44` / `46–49` are rejected.
 
 When law or AT issued ranges change, bump the library version and update this block (and CHANGELOG). Do not silently reinterpret already-published majors.
 
