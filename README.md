@@ -59,7 +59,7 @@ if (!result.isValid()) {
 |--------|------|
 | `Nif.validate(String)` | Shared pipeline: success (`Nif`) or `NifFailureReason` |
 | `Nif.parse(String)` | `Optional<Nif>` |
-| `Nif.require(String)` | Strict half of `parse`: returns `Nif`, or throws `NifException` |
+| `Nif.require(String)` | Strict half of `parse`: returns `Nif`, or throws `InvalidNifException` |
 | `Nif.isValid(String)` | boolean |
 | `Nif.normalize(String)` | Digits only (optional `PT`, spaces, dots, dashes) or `null` |
 | `Nif.checkDigit(String)` | Modulo-11 check digit for 8 body digits |

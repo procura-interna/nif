@@ -225,11 +225,11 @@ public class NifTest {
   }
 
   @Test
-  public void require_throwsNifExceptionWithReason() {
+  public void require_throwsInvalidNifExceptionWithReason() {
     try {
       Nif.require("123456780");
-      fail("expected NifException");
-    } catch (NifException e) {
+      fail("expected InvalidNifException");
+    } catch (InvalidNifException e) {
       assertEquals(NifFailureReason.BAD_CHECK_DIGIT, e.reason());
     }
   }

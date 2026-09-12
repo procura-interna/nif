@@ -124,7 +124,7 @@ public final class Nif implements Comparable<Nif>, Serializable {
   public static Nif require(String input) {
     NifValidation result = validate(input);
     if (!result.isValid()) {
-      throw new NifException(input, result.failureReason());
+      throw new InvalidNifException(input, result.failureReason());
     }
     return result.nif();
   }
