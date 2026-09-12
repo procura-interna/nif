@@ -1,8 +1,14 @@
 package pt.procurainterna.nif;
 
 /**
- * Fiscal entity categories inferred from the leading digit(s) of a Portuguese NIF,
- * per Autoridade Tributaria ranges (see Decreto-Lei n.o 14/2013 and AT guidance).
+ * Fiscal entity categories inferred from the leading digit(s) of a Portuguese NIF.
+ *
+ * <p>See {@code README.md} ("Regulatory alignment") for the instruments this release
+ * is aligned with. Prefix meanings follow issued gamas; this enum does not restate
+ * the full table.
+ *
+ * @see <a href="https://diariodarepublica.pt/dr/detalhe/decreto-lei/14-2013-257001">Decreto-Lei n.o 14/2013</a>
+ * @see <a href="https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290">Portaria n.o 302/2016</a>
  */
 public enum NifEntityType {
 
@@ -61,8 +67,11 @@ public enum NifEntityType {
   CIVIL_SOCIETY,
 
   /**
-   * SAF-T "Consumidor final" placeholder {@code 999999990} (Portaria 302/2016).
+   * SAF-T "Consumidor final" placeholder {@code 999999990}.
    * Structurally a valid NIF in the 99 range, but not a sociedade civil.
+   *
+   * @see <a href="https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290">Portaria n.o 302/2016</a>
+   * @see <a href="https://info.portaldasfinancas.gov.pt/pt/informacao_fiscal/legislacao/diplomas_legislativos/Documents/Portaria_302_2016.pdf">AT PDF (Portaria 302/2016)</a>
    */
   FINAL_CONSUMER;
 
