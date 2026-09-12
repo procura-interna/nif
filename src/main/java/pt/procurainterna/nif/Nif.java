@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A validated Portuguese NIF ({@code Numero de Identificacao Fiscal}).
+ * A validated Portuguese NIF ({@code Número de Identificação Fiscal}).
  *
  * <p>Instances exist only for currently accepted prefixes with a correct check
  * digit. Prefer {@link #parse(String)} / {@link #validate(String)} for soft
@@ -27,8 +27,8 @@ import java.util.Set;
  * ("Regulatory alignment"). Structure / issued prefixes / check digit only;
  * not live AT validation.
  *
- * @see <a href="https://diariodarepublica.pt/dr/detalhe/decreto-lei/14-2013-257001">Decreto-Lei n.o 14/2013</a>
- * @see <a href="https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290">Portaria n.o 302/2016</a>
+ * @see <a href="https://diariodarepublica.pt/dr/detalhe/decreto-lei/14-2013-257001">Decreto-Lei n.º 14/2013</a>
+ * @see <a href="https://diariodarepublica.pt/dr/detalhe/portaria/302-2016-105300290">Portaria n.º 302/2016</a>
  * @see <a href="https://info.portaldasfinancas.gov.pt/pt/destaques/Paginas/Atribuicao_Nova_Gama_de_NIF_a_Pessoas_Singulares.aspx">AT Nota Informativa (gama 3), 8 Apr 2019</a>
  */
 public final class Nif implements Comparable<Nif>, Serializable {
