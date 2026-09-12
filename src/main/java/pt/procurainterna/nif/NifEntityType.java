@@ -2,7 +2,7 @@ package pt.procurainterna.nif;
 
 /**
  * Fiscal entity categories inferred from the leading digit(s) of a Portuguese NIF,
- * per Autoridade Tributária ranges (see Decreto-Lei n.º 14/2013 and AT guidance).
+ * per Autoridade Tributaria ranges (see Decreto-Lei n.o 14/2013 and AT guidance).
  */
 public enum NifEntityType {
 
@@ -10,54 +10,54 @@ public enum NifEntityType {
   INDIVIDUAL,
 
   /**
-   * Pessoa singular não residente com rendimentos sujeitos a retenção na fonte
-   * a título definitivo (leading 45).
+   * Pessoa singular nao residente com rendimentos sujeitos a retencao na fonte
+   * a titulo definitivo (leading 45).
    */
   INDIVIDUAL_NON_RESIDENT,
 
   /** Pessoa colectiva obrigada a registo no RNPC (leading 5). */
   COMPANY,
 
-  /** Administração Pública Central, Regional ou Local (leading 6). */
+  /** Administracao Publica Central, Regional ou Local (leading 6). */
   PUBLIC_ADMINISTRATION,
 
   /**
-   * Herança indivisa �" autor da sucessão não era empresário individual, ou
-   * cônjuge sobrevivente com rendimentos comerciais (leading 70, 74, 75).
+   * Heranca indivisa - autor da sucessao nao era empresario individual, ou
+   * conjuge sobrevivente com rendimentos comerciais (leading 70, 74, 75).
    */
   UNDIVIDED_INHERITANCE,
 
-  /** Não residentes colectivos sujeitos a retenção na fonte a título definitivo (leading 71). */
+  /** Nao residentes colectivos sujeitos a retencao na fonte a titulo definitivo (leading 71). */
   COLLECTIVE_NON_RESIDENT_WITHHOLDING,
 
   /** Fundos de investimento (leading 72). */
   INVESTMENT_FUND,
 
-  /** Atribuição oficiosa de NIF de sujeito passivo (leading 77). */
+  /** Atribuicao oficiosa de NIF de sujeito passivo (leading 77). */
   OFFICIAL_ASSIGNMENT,
 
-  /** Atribuição oficiosa a não residentes (VAT REFUND) (leading 78). */
+  /** Atribuicao oficiosa a nao residentes (VAT REFUND) (leading 78). */
   OFFICIAL_ASSIGNMENT_VAT_REFUND,
 
-  /** Regime excepcional �" Expo 98 (leading 79). */
+  /** Regime excepcional - Expo 98 (leading 79). */
   EXCEPTIONAL_REGIME,
 
   /**
-   * Empresário em nome individual (leading 8). Obsolete: no longer issued and
+   * Empresario em nome individual (leading 8). Obsolete: no longer issued and
    * never returned as a {@link Nif} instance.
    */
   SOLE_TRADER_OBSOLETE,
 
   /**
-   * Condomínios, sociedades irregulares, ou heranças indivisas cujo autor era
-   * empresário individual (leading 90, 91).
+   * Condominios, sociedades irregulares, ou herancas indivisas cujo autor era
+   * empresario individual (leading 90, 91).
    */
   CONDOMINIUM_OR_IRREGULAR,
 
-  /** Não residentes sem estabelecimento estável (leading 98). */
+  /** Nao residentes sem estabelecimento estavel (leading 98). */
   NON_RESIDENT_NO_PERMANENT_ESTABLISHMENT,
 
-  /** Sociedades civis sem personalidade jurídica (leading 99). */
+  /** Sociedades civis sem personalidade juridica (leading 99). */
   CIVIL_SOCIETY;
 
   /** Pessoa singular (resident or non-resident individual ranges). */

@@ -204,7 +204,7 @@ public final class Nif implements Comparable<Nif>, Serializable {
   }
 
   /**
-   * See {@link NifEntityType#isLegalPerson()} — not the same as {@link #isCompany()}.
+   * See {@link NifEntityType#isLegalPerson()} - not the same as {@link #isCompany()}.
    */
   public boolean isLegalPerson() {
     return entityType.isLegalPerson();
