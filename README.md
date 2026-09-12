@@ -85,9 +85,20 @@ Prepared for Maven Central the same way as other `pt.procurainterna` libraries:
 
 - POM metadata: license, developers, SCM, issues
 - `maven-source-plugin` / `maven-javadoc-plugin` attach classifiers
-- `maven-gpg-plugin` signs at `verify`
-- `central-publishing-maven-plugin` (`publishingServerId` = `maven-central`)
 - `UNLICENSE` is copied into `META-INF/` of the jar
+- GPG signing and `central-publishing-maven-plugin` live in the `release` profile only
 
-Requires a `maven-central` server entry (and GPG) in your Maven `settings.xml`. Publish with your usual Central workflow (for example `mvn -DskipTests verify` then the Central publish goal once credentials are configured).
+Everyday builds (no keys required):
+
+```bash
+mvn verify
+```
+
+Cut a release (stay on `*-SNAPSHOT` until then), tag, then:
+
+```bash
+mvn -Prelease clean deploy
+```
+
+Requires a `maven-central` server entry and a working GPG key in your Maven `settings.xml` / agent. Finish validation on Sonatype Central's website after upload.
 
