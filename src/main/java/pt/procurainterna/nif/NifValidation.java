@@ -22,6 +22,9 @@ public final class NifValidation {
     return new NifValidation(null, reason);
   }
 
+  /**
+   * Returns {@code true} when validation succeeded and {@link #nif()} is present.
+   */
   public boolean isValid() {
     return nif != null;
   }

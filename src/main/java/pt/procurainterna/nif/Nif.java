@@ -90,6 +90,9 @@ public final class Nif implements Comparable<Nif>, Serializable {
   /**
    * Shared validation pipeline used by {@link #isValid}, {@link #parse},
    * {@link #validate}, and {@link #require}. Exactly one of success or failure.
+   *
+   * @param input candidate NIF (may include {@code PT}, spaces, dots, dashes)
+   * @return success with a {@link Nif}, or failure with a {@link NifFailureReason}
    */
   public static NifValidation validate(String input) {
     DigitsResult digits = extractDigits(input);
@@ -113,6 +116,9 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return NifValidation.ok(new Nif(canonical, type));
   }
 
+  /**
+   * Soft parse: a {@link Nif} when {@link #validate(String)} succeeds, otherwise empty.
+   */
   public static Optional<Nif> parse(String input) {
     NifValidation result = validate(input);
     if (result.isValid()) {
@@ -121,6 +127,9 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return Optional.empty();
   }
 
+  /**
+   * Strict parse: returns a {@link Nif}, or throws {@link InvalidNifException}.
+   */
   public static Nif require(String input) {
     NifValidation result = validate(input);
     if (!result.isValid()) {
@@ -129,6 +138,9 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return result.nif();
   }
 
+  /**
+   * Returns {@code true} when {@link #validate(String)} succeeds.
+   */
   public static boolean isValid(String input) {
     return validate(input).isValid();
   }
@@ -137,12 +149,22 @@ public final class Nif implements Comparable<Nif>, Serializable {
    * Strips optional {@code PT}, spaces, and dots. Returns nine digits, or
    * {@code null} if the input cannot be reduced to exactly nine digits
    * (does not check prefix or check digit).
+   *
+   * @param nif candidate input
+   * @return canonical digits, or {@code null} if unparseable
    */
   public static String normalize(String nif) {
     DigitsResult digits = extractDigits(nif);
     return digits.digits;
   }
 
+  /**
+   * Computes the modulo-11 check digit (0-9) for the first eight digits.
+   *
+   * @param firstEightDigits exactly eight digit characters
+   * @return the check digit
+   * @throws IllegalArgumentException if the argument is null or not eight digits
+   */
   public static int checkDigit(String firstEightDigits) {
     if (firstEightDigits == null || firstEightDigits.length() != BODY_LENGTH) {
       throw new IllegalArgumentException("expected exactly 8 digits");
@@ -166,6 +188,9 @@ public final class Nif implements Comparable<Nif>, Serializable {
    * Classifies by leading digit(s) without requiring a valid check digit.
    * Returns {@code null} for null/unparseable/unknown prefix. Obsolete
    * {@code 8} maps to {@link NifEntityType#SOLE_TRADER_OBSOLETE}.
+   *
+   * @param nif candidate input
+   * @return entity type, or {@code null} if unclassified
    */
   public static NifEntityType entityTypeOf(String nif) {
     DigitsResult digits = extractDigits(nif);
@@ -175,14 +200,21 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return classify(digits.digits);
   }
 
+  /** Canonical nine-digit form. */
   public String value() {
     return value;
   }
 
+  /** Entity category inferred from the leading digit(s). */
   public NifEntityType entityType() {
     return entityType;
   }
 
+  /**
+   * Formats this NIF in the requested shape.
+   *
+   * @throws IllegalArgumentException if {@code format} is {@code null}
+   */
   public String format(NifFormat format) {
     if (format == null) {
       throw new IllegalArgumentException("format");
@@ -199,14 +231,17 @@ public final class Nif implements Comparable<Nif>, Serializable {
     }
   }
 
+  /** Leading 1-3 (pessoa singular). */
   public boolean isIndividual() {
     return entityType == NifEntityType.INDIVIDUAL;
   }
 
+  /** Leading 45 (pessoa singular nao residente). */
   public boolean isNonResidentIndividual() {
     return entityType == NifEntityType.INDIVIDUAL_NON_RESIDENT;
   }
 
+  /** See {@link NifEntityType#isNaturalPerson()}. */
   public boolean isNaturalPerson() {
     return entityType.isNaturalPerson();
   }
@@ -218,46 +253,57 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return entityType.isLegalPerson();
   }
 
+  /** Leading 5 (pessoa colectiva / NIPC). */
   public boolean isCompany() {
     return entityType == NifEntityType.COMPANY;
   }
 
+  /** Leading 6. */
   public boolean isPublicAdministration() {
     return entityType == NifEntityType.PUBLIC_ADMINISTRATION;
   }
 
+  /** Leading 70, 74, or 75. */
   public boolean isUndividedInheritance() {
     return entityType == NifEntityType.UNDIVIDED_INHERITANCE;
   }
 
+  /** Leading 71. */
   public boolean isCollectiveNonResidentWithholding() {
     return entityType == NifEntityType.COLLECTIVE_NON_RESIDENT_WITHHOLDING;
   }
 
+  /** Leading 72. */
   public boolean isInvestmentFund() {
     return entityType == NifEntityType.INVESTMENT_FUND;
   }
 
+  /** Leading 77. */
   public boolean isOfficialAssignment() {
     return entityType == NifEntityType.OFFICIAL_ASSIGNMENT;
   }
 
+  /** Leading 78. */
   public boolean isOfficialAssignmentVatRefund() {
     return entityType == NifEntityType.OFFICIAL_ASSIGNMENT_VAT_REFUND;
   }
 
+  /** Leading 79. */
   public boolean isExceptionalRegime() {
     return entityType == NifEntityType.EXCEPTIONAL_REGIME;
   }
 
+  /** Leading 90 or 91. */
   public boolean isCondominiumOrIrregular() {
     return entityType == NifEntityType.CONDOMINIUM_OR_IRREGULAR;
   }
 
+  /** Leading 98. */
   public boolean isNonResidentNoPermanentEstablishment() {
     return entityType == NifEntityType.NON_RESIDENT_NO_PERMANENT_ESTABLISHMENT;
   }
 
+  /** Leading 99, excluding the SAF-T final-consumer placeholder. */
   public boolean isCivilSociety() {
     return entityType == NifEntityType.CIVIL_SOCIETY;
   }
@@ -267,11 +313,13 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return entityType == NifEntityType.FINAL_CONSUMER;
   }
 
+  /** Orders by canonical digit string. */
   @Override
   public int compareTo(Nif other) {
     return value.compareTo(other.value);
   }
 
+  /** Equality is by canonical nine-digit value. */
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -283,11 +331,13 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return value.equals(((Nif) o).value);
   }
 
+  /** Consistent with {@link #equals(Object)}. */
   @Override
   public int hashCode() {
     return value.hashCode();
   }
 
+  /** Same as {@link #value()}. */
   @Override
   public String toString() {
     return value;

@@ -2,6 +2,7 @@
 
 ## 1.0.1-SNAPSHOT
 
+- Add brief Javadoc on all public API members (validate/parse/require/isValid, predicates, formats, failure reasons, `InvalidNifException`).
 - Rename `NifException` to `InvalidNifException` (still extends `IllegalArgumentException`, keeps `reason()`).
 - Document regulatory alignment (as of 2026-09-12) in README: Decreto-Lei n.º 14/2013, Portaria n.º 302/2016, AT Nota Informativa (gama 3, 2019), and issued-prefix strictness.
 - Add light Javadoc `@see` links on `Nif`, `NifEntityType`, and `FINAL_CONSUMER` pointing at those instruments and the README section.
