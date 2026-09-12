@@ -146,7 +146,7 @@ public final class Nif implements Comparable<Nif>, Serializable {
   }
 
   /**
-   * Strips optional {@code PT}, spaces, and dots. Returns nine digits, or
+   * Strips optional {@code PT}, spaces, dots, and dashes. Returns nine digits, or
    * {@code null} if the input cannot be reduced to exactly nine digits
    * (does not check prefix or check digit).
    *

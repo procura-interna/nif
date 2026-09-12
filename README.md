@@ -91,7 +91,7 @@ Company NIFs (leading `5`) are the same digits as the NIPC from RNPC — use `is
 Leading `45` marks non-resident individuals for definitive withholding; AT advises those NIFs are not for general contracts/banking. That policy is out of scope for validation; we only classify the prefix.
 
 
-## Regulatory alignment (v1.0.1-SNAPSHOT)
+## Regulatory alignment (v1.0.0)
 
 As of **2026-09-12**, this library is aligned with the following instruments for
 **structure, issued prefixes, and check digit only**. It does **not** perform live
