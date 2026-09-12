@@ -78,3 +78,16 @@ This library checks **structure, prefix ranges, and check digit**. It does **not
 ## License
 
 [Unlicense](https://unlicense.org) (public domain). See `UNLICENSE`.
+
+## Publishing
+
+Prepared for Maven Central the same way as other `pt.procurainterna` libraries:
+
+- POM metadata: license, developers, SCM, issues
+- `maven-source-plugin` / `maven-javadoc-plugin` attach classifiers
+- `maven-gpg-plugin` signs at `verify`
+- `central-publishing-maven-plugin` (`publishingServerId` = `maven-central`)
+- `UNLICENSE` is copied into `META-INF/` of the jar
+
+Requires a `maven-central` server entry (and GPG) in your Maven `settings.xml`. Publish with your usual Central workflow (for example `mvn -DskipTests verify` then the Central publish goal once credentials are configured).
+

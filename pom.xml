@@ -8,15 +8,43 @@
   <artifactId>nif</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <name>nif</name>
-  <description>Portuguese NIF (Número de Identificação Fiscal) utilities</description>
+  <description>Portuguese NIF (Numero de Identificacao Fiscal) utilities for Java 8.</description>
+  <url>https://github.com/procura-interna/nif</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.release>8</maven.compiler.release>
     <junit.version>4.13.2</junit.version>
   </properties>
+
+  <licenses>
+    <license>
+      <name>Unlicense</name>
+      <distribution>repo</distribution>
+      <url>https://unlicense.org/</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>procurainterna</id>
+      <name>Procura Interna</name>
+      <url>https://github.com/procura-interna</url>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/procura-interna/nif/issues</url>
+  </issueManagement>
+
+  <scm>
+    <connection>scm:git@github.com:procura-interna/nif.git</connection>
+    <developerConnection>scm:git@github.com:procura-interna/nif.git</developerConnection>
+    <url>https://github.com/procura-interna/nif</url>
+  </scm>
 
   <dependencies>
     <dependency>
@@ -34,13 +62,92 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <release>8</release>
+          <release>${maven.compiler.release}</release>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.7</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.9.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>maven-central</publishingServerId>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-license-into-jar</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}</directory>
+                  <includes>
+                    <include>UNLICENSE</include>
+                  </includes>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
