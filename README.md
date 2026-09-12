@@ -69,11 +69,19 @@ Once you hold a `Nif`:
 - Grouped: `500 051 070`, `500.051.070`, `500-051-070`
 - EU VAT style: `PT500051070` (case-insensitive `PT`)
 
+Only **issued** prefix ranges are accepted (the gamas actually used by AT / RNPC), not every first digit contemplated in abstract by Decreto-Lei n.o 14/2013. In particular, bare leading `4` outside `45`, and other unissued two-digit gaps (`40`/`46`/`73`/`76`/`92`, ...), are rejected as `UNKNOWN_PREFIX`.
+
 Obsolete leading `8` (empresario em nome individual) is classified via `entityTypeOf` but **never** returned by `parse` / `require`.
+
+`999999990` is the SAF-T **consumidor final** placeholder (Portaria 302/2016). It parses as `FINAL_CONSUMER` / `isFinalConsumer()`, not as a sociedade civil.
+
+Company NIFs (leading `5`) are the same digits as the NIPC from RNPC ? use `isCompany()`.
+
+Leading `45` marks non-resident individuals for definitive withholding; AT advises those NIFs are not for general contracts/banking. That policy is out of scope for validation; we only classify the prefix.
 
 ## Scope
 
-This library checks **structure, prefix ranges, and check digit**. It does **not** call Autoridade Tributaria to verify that a NIF is assigned or active.
+This library checks **structure, issued prefix ranges, and check digit**. It does **not** call Autoridade Tributaria to verify that a NIF is assigned or active.
 
 ## License
 

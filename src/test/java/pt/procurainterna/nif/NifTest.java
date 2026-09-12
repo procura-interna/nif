@@ -16,7 +16,7 @@ public class NifTest {
 
   private static final String REAL_COMPANY_EDP = "500051070";
   private static final String WIKI_COMPANY = "501442600";
-  private static final String WIKI_CIVIL = "999999990";
+  private static final String FINAL_CONSUMER = "999999990";
 
   @Test
   public void checkDigit_knownBodies() {
@@ -31,7 +31,8 @@ public class NifTest {
   public void isValid_knownGoodPass() {
     assertTrue(Nif.isValid(REAL_COMPANY_EDP));
     assertTrue(Nif.isValid(WIKI_COMPANY));
-    assertTrue(Nif.isValid(WIKI_CIVIL));
+    assertTrue(Nif.isValid(FINAL_CONSUMER));
+    assertTrue(Nif.isValid(nifWithPrefix("9912345")));
     assertTrue(Nif.isValid(nifWithPrefix("1234567")));
   }
 
@@ -74,7 +75,8 @@ public class NifTest {
     assertEntity(NifEntityType.CONDOMINIUM_OR_IRREGULAR, nifWithPrefix("9012345"));
     assertEntity(NifEntityType.CONDOMINIUM_OR_IRREGULAR, nifWithPrefix("9112345"));
     assertEntity(NifEntityType.NON_RESIDENT_NO_PERMANENT_ESTABLISHMENT, nifWithPrefix("9812345"));
-    assertEntity(NifEntityType.CIVIL_SOCIETY, WIKI_CIVIL);
+    assertEntity(NifEntityType.CIVIL_SOCIETY, nifWithPrefix("9912345"));
+    assertEntity(NifEntityType.FINAL_CONSUMER, FINAL_CONSUMER);
   }
 
   @Test
@@ -185,7 +187,13 @@ public class NifTest {
     assertTrue(Nif.require(nifWithPrefix("7912345")).isExceptionalRegime());
     assertTrue(Nif.require(nifWithPrefix("9012345")).isCondominiumOrIrregular());
     assertTrue(Nif.require(nifWithPrefix("9812345")).isNonResidentNoPermanentEstablishment());
-    assertTrue(Nif.require(WIKI_CIVIL).isCivilSociety());
+    assertTrue(Nif.require(nifWithPrefix("9912345")).isCivilSociety());
+    Nif finalConsumer = Nif.require(FINAL_CONSUMER);
+    assertTrue(finalConsumer.isFinalConsumer());
+    assertFalse(finalConsumer.isCivilSociety());
+    assertFalse(finalConsumer.isNaturalPerson());
+    assertFalse(finalConsumer.isLegalPerson());
+    assertEquals(NifEntityType.FINAL_CONSUMER, finalConsumer.entityType());
   }
 
   @Test
@@ -198,6 +206,22 @@ public class NifTest {
     assertEquals(bare.hashCode(), spaced.hashCode());
     assertEquals(0, bare.compareTo(vat));
     assertTrue(bare.compareTo(Nif.require(WIKI_COMPANY)) < 0);
+  }
+
+
+  @Test
+  public void finalConsumer_safTPlaceholder() {
+    Nif nif = Nif.require(FINAL_CONSUMER);
+    assertTrue(nif.isFinalConsumer());
+    assertFalse(nif.isCivilSociety());
+    assertEquals(FINAL_CONSUMER, nif.value());
+    // same 99 prefix but not the placeholder
+    Nif civil = Nif.require(nifWithPrefix("9912345"));
+    assertTrue(civil.isCivilSociety());
+    assertFalse(civil.isFinalConsumer());
+    // lookalike with bad check digit
+    assertFalse(Nif.isValid("999999991"));
+    assertEquals(NifFailureReason.BAD_CHECK_DIGIT, Nif.validate("999999991").failureReason());
   }
 
   @Test

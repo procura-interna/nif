@@ -254,6 +254,11 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return entityType == NifEntityType.CIVIL_SOCIETY;
   }
 
+  /** SAF-T consumidor final placeholder {@code 999999990}. */
+  public boolean isFinalConsumer() {
+    return entityType == NifEntityType.FINAL_CONSUMER;
+  }
+
   @Override
   public int compareTo(Nif other) {
     return value.compareTo(other.value);
@@ -314,7 +319,12 @@ public final class Nif implements Comparable<Nif>, Serializable {
     return DigitsResult.ok(digits.toString());
   }
 
+  private static final String FINAL_CONSUMER_NIF = "999999990";
+
   private static NifEntityType classify(String canonical) {
+    if (FINAL_CONSUMER_NIF.equals(canonical)) {
+      return NifEntityType.FINAL_CONSUMER;
+    }
     String two = canonical.substring(0, 2);
     if (TWO_DIGIT_TYPES.containsKey(two)) {
       return TWO_DIGIT_TYPES.get(two);

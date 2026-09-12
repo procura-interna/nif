@@ -15,7 +15,7 @@ public enum NifEntityType {
    */
   INDIVIDUAL_NON_RESIDENT,
 
-  /** Pessoa colectiva obrigada a registo no RNPC (leading 5). */
+  /** Pessoa colectiva obrigada a registo no RNPC (leading 5). Also called NIPC. */
   COMPANY,
 
   /** Administracao Publica Central, Regional ou Local (leading 6). */
@@ -57,8 +57,14 @@ public enum NifEntityType {
   /** Nao residentes sem estabelecimento estavel (leading 98). */
   NON_RESIDENT_NO_PERMANENT_ESTABLISHMENT,
 
-  /** Sociedades civis sem personalidade juridica (leading 99). */
-  CIVIL_SOCIETY;
+  /** Sociedades civis sem personalidade juridica (leading 99, except the SAF-T placeholder). */
+  CIVIL_SOCIETY,
+
+  /**
+   * SAF-T "Consumidor final" placeholder {@code 999999990} (Portaria 302/2016).
+   * Structurally a valid NIF in the 99 range, but not a sociedade civil.
+   */
+  FINAL_CONSUMER;
 
   /** Pessoa singular (resident or non-resident individual ranges). */
   public boolean isNaturalPerson() {
@@ -71,11 +77,13 @@ public enum NifEntityType {
    * {@link NifEntityType#COMPANY} / "empresa" - it also includes public administration,
    * undivided inheritances, investment funds, condominiums, official assignments, civil
    * societies, and other collective ranges. Prefer {@code COMPANY} / {@link Nif#isCompany()}
-   * when you mean pessoa colectiva (leading 5).
+   * when you mean pessoa colectiva (leading 5). Does not include
+   * {@link #FINAL_CONSUMER} or {@link #SOLE_TRADER_OBSOLETE}.
    */
   public boolean isLegalPerson() {
     return this != INDIVIDUAL
         && this != INDIVIDUAL_NON_RESIDENT
-        && this != SOLE_TRADER_OBSOLETE;
+        && this != SOLE_TRADER_OBSOLETE
+        && this != FINAL_CONSUMER;
   }
 }
