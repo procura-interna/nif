@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1-SNAPSHOT
+
+- (empty — post-1.0.0 development)
+
 ## 1.0.0
 
 - First release: valid-only `Nif` value object, shared validation pipeline, formats, entity types including SAF-T `FINAL_CONSUMER` (`999999990`), Maven Central publish profile (`-Prelease`).
